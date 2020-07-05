@@ -19,9 +19,9 @@ function Boid:new(orderedUpdate,x,y,opts)
 	self.rotationVelocity = 1.77*math.pi
 	self.speed = opts.velocity
 	self.maxSpeed = 50
-	self.acceleration = 20
   
-  self.velocity = Vector.new(self.speed*math.cos(self.rotation),self.speed*math.sin(self.rotation))
+	self.acceleration = Vector.new(0,0)
+  self.velocity = Vector.new(math.cos(self.rotation),math.sin(self.rotation))
   self.canObserve = true 
   
   
@@ -52,8 +52,10 @@ function Boid:update(dt)
       self.collider:setPosition(self.x, -self.w) 
       self.x,self.y = self.collider:getPosition() 
       end
+    self.velocity = self.velocity + self.acceleration
+    self.collider:setLinearVelocity(self.velocity.x,self.velocity.y)
     self.x,self.y = self.collider:getPosition() 
-    self.collider:setLinearVelocity(self.velocity:getX(),self.velocity:getY())
+    self.acceleration = self.acceleration *0
 	end
 end
 
@@ -68,8 +70,6 @@ end
 
 
 function Boid:observe(dt)
-  --self.canObserve = false
-  --get all the coliders close to this one  and get the object they belong to
   local colliders = orderedUpdate.physicsWorld:queryCircleArea(self.x,self.y,observeRange)
   local nearbyBoids = {}
   --if there are other colliders around
@@ -79,9 +79,9 @@ function Boid:observe(dt)
           table.insert(nearbyBoids,collider:getObject())
         end
     end
+    local aligmentSteer = self:aligment(nearbyBoids)
+    self.acceleration = self.acceleration + aligmentSteer
   end
-  self:aligment(nearbyBoids)
-  
 end
 
 
@@ -90,10 +90,16 @@ end
 function Boid:aligment(nearbyBoids)
   local sum = Vector.new(0,0)
   for i,boid in ipairs(nearbyBoids) do
-    Vector.__add(boid.velocity,sum)
+    sum = sum + boid.velocity
   end
-  sum:normalize();
-  Vector.__mul(sum)
+  sum = sum/#nearbyBoids
+  sum:normalizeInplace()
+  sum = sum*self.speed
+  steer = Vector.new()
+  sum = sum-self.velocity
+  sum:trimInplace(self.maxSpeed )
+  return sum
+   
   
 end
 
