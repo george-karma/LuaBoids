@@ -7,3 +7,4 @@ aligmentTime = 0.5
 minSeparation = observeRange/1.5
 desiredBoids = 100
 timeToCentre = 2
+boidSize = 5

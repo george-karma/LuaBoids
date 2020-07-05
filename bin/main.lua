@@ -5,6 +5,7 @@ Timer= require "timer"
 Input= require "input"
 Physics = require 'windfield'
 globals = require "globals"
+Vector = require 'vector'
 
 
 
