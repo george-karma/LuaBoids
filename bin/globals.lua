@@ -1,10 +1,10 @@
 seeObserverRange = false
 observeTime = 0.5
-observeRange = 150
+observeRange = 65
 cohesionTime = 0.5
 separationTime = 0.5
 aligmentTime = 0.5
-minSeparation = observeRange/1.5
+minSeparation = observeRange/5
 desiredBoids = 100
 timeToCentre = 2
 boidSize = 5

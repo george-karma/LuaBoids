@@ -108,7 +108,10 @@ function Boid:separation()
 							self.y+minSeparation*math.sin(self.rotation-math.pi/2),
 							self.x+1.3*math.cos(self.rotation-math.pi/2),
 							self.y+1.3*math.sin(self.rotation-math.pi/2),{'Boid'})          
-  
+  --[[local obstacles = {}
+  joinTables(obstacles,obstaclesFront)
+  joinTables(obstacles,obstaclesLeft)
+  joinTables(obstacles,obstaclesLeft)]]--
   if #obstacles>1 then
     local closestObstacle = obstacles[1]:getObject()
     local steeringForce = math.atan2(closestObstacle.x + math.abs(closestObstacle.x - self.x)*3 ,closestObstacle.y + math.abs(closestObstacle.y - self.y)*3)
@@ -116,38 +119,7 @@ function Boid:separation()
     local reverseRotation = -self.rotation
     timer:tween(separationTime,self,{rotation = reverseRotation, currentVelocity = maxVelocity},'linear', function() self.currentVelocity = oldVelocity/0.7 end)
   end
-    --if self.rotation * closestObstacle.rotation < 0 then
     
-    
-    --[[
-    if math.abs(closestObstacle.rotation) < math.pi/2 then
-      timer:tween(separationTime,self,{rotation = steeringForce, currentVelocity = maxVelocity},'linear', function() self.currentVelocity = oldVelocity end)
-    elseif math.abs(closestObstacle.rotation) > math.pi/2 then
-      timer:tween(separationTime,self,{rotation = -steeringForce,currentVelocity = maxVelocity},'linear', function() self.currentVelocity = oldVelocity end)
-    end    
-  end
-  
-  --[[
-  local closestObstacle = obstacles[1]
-  local close = true
-  for i,obstacle in ipairs(obstacles) do
-    if math.abs(obstacle.x - self.x) < minSeparation or math.abs(obstacle.y - self.y) <  minSeparation then
-      local close = true
-        if obstacle.x < closestObstacle.x or obstacle.y <closestObstacle.y then
-          closestObstacle = obstacle
-        end
-    end
-  end
-  if close then
-  local steeringForce = math.atan2(closestObstacle.x + (closestObstacle.x - self.x)*3 ,closestObstacle.y + (closestObstacle.y - self.y)*3)
-  local oldVelocity = self.currentVelocity
-  if math.abs(closestObstacle.rotation) < math.pi/2 then
-      timer:tween(separationTime,self,{rotation = steeringForce, currentVelocity = maxVelocity},'linear', function() self.currentVelocity = oldVelocity end)
-  else
-      timer:tween(separationTime,self,{rotation = -steeringForce,currentVelocity = maxVelocity},'linear', function() self.currentVelocity = oldVelocity end)
-  end    
-  end
-   ]]--   ]]--
   
 end
 
@@ -209,6 +181,9 @@ function clamp(min, val, max)
     return math.max(min, math.min(val, max));
 end
 
+function joinTables(table1,table2)
+    for k,v in pairs(table2) do table.insert(table1,v) end
+end
 
 
 return Boid

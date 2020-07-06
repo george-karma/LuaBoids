@@ -53,6 +53,7 @@ function Boid:update(dt)
       self.x,self.y = self.collider:getPosition() 
       end
     self.velocity = self.velocity + self.acceleration
+    self.rotation = math.atan2(self.velocity.y,self.velocity.x)
     self.collider:setLinearVelocity(self.velocity.x,self.velocity.y)
     self.x,self.y = self.collider:getPosition() 
     self.acceleration = self.acceleration *0
@@ -75,12 +76,14 @@ function Boid:observe(dt)
   --if there are other colliders around
   if #colliders>1 then
     for i,collider in ipairs(colliders) do
-        if collider.collision_class == "Boid" then
+        if collider.collision_class == "Boid"  and collider:getObject() ~= self then
           table.insert(nearbyBoids,collider:getObject())
         end
     end
     local aligmentSteer = self:aligment(nearbyBoids)
-    self.acceleration = self.acceleration + aligmentSteer
+    local separationSteer = self:separation(nearbyBoids)
+    self.acceleration = self.acceleration + aligmentSteer 
+    self.acceleration = self.acceleration + separationSteer
   end
 end
 
@@ -92,10 +95,11 @@ function Boid:aligment(nearbyBoids)
   for i,boid in ipairs(nearbyBoids) do
     sum = sum + boid.velocity
   end
+  --average the velocity of nearby boids 
   sum = sum/#nearbyBoids
   sum:normalizeInplace()
   sum = sum*self.speed
-  steer = Vector.new()
+  --amount to steer = desired velocity - current velocity
   sum = sum-self.velocity
   sum:trimInplace(self.maxSpeed )
   return sum
@@ -104,7 +108,27 @@ function Boid:aligment(nearbyBoids)
 end
 
 
-
+function Boid:separation(nearbyBoids)
+  local closestBoid = nearbyBoids[1]
+  local separateSteer= Vector.new(0,0)
+  for i, boid in ipairs(nearbyBoids)do
+    if self.velocity:dist(boid.velocity) < self.velocity:dist(closestBoid.velocity) then
+      closestBoid = boid
+    end
+  end
+  if self.velocity:dist(closestBoid.velocity) < minSeparation then
+    
+    separateSteer.x = self.x - closestBoid.x
+    separateSteer.y = self.y - closestBoid.y
+    --divide by distance to other to lower the steer if its farther
+    separateSteer = separateSteer * self.velocity:dist(closestBoid.velocity)
+    separateSteer:normalizeInplace()
+    separateSteer = separateSteer*self.speed
+    separateSteer = separateSteer - self.velocity
+    separateSteer:trimInplace(self.maxSpeed )
+  end
+  return separateSteer
+end
 
 function clamp(min, val, max)
     return math.max(min, math.min(val, max));
