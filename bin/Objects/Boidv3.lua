@@ -7,7 +7,7 @@ function Boid:new(orderedUpdate,x,y,opts)
   self.x =x
   self.y = y
   self.w = 5
-  
+  self.position = Vector.new(self.x,self.y)
   
   
   self.collider = orderedUpdate.physicsWorld:newCircleCollider(self.x,self.y,self.w)
@@ -56,6 +56,8 @@ function Boid:update(dt)
     self.rotation = math.atan2(self.velocity.y,self.velocity.x)
     self.collider:setLinearVelocity(self.velocity.x*self.speed,self.velocity.y*self.speed)
     self.x,self.y = self.collider:getPosition() 
+    self.position.x = self.x
+    self.position.y = self.y 
     self.acceleration = self.acceleration *0
 	end
 end
@@ -84,7 +86,7 @@ function Boid:observe(dt)
     local separationSteer = self:separation(nearbyBoids)
     local cohestionSteer = self:cohesion(nearbyBoids)
     self.acceleration = self.acceleration + aligmentSteer
-    self.acceleration = self.acceleration + separationSteer
+    self.acceleration = self.acceleration + separationSteer*2
     self.acceleration = self.acceleration + cohestionSteer
     
   end
@@ -113,26 +115,31 @@ end
 
 
 function Boid:separation(nearbyBoids)
-  local closestBoid = nearbyBoids[1]
   local separateSteer= Vector.new(0,0)
+  local howMannyCloseBoids = 0
   for i, boid in ipairs(nearbyBoids)do
-    if self.velocity:dist(boid.velocity) < self.velocity:dist(closestBoid.velocity) then
-      closestBoid = boid
+    if self.position:dist(boid.position) < minSeparation then
+      local avoidSingleBoid = Vector.new(0,0)
+      avoidSingleBoid.x = self.x - boid.x
+      avoidSingleBoid.y = self.y - boid.y
+      avoidSingleBoid:normalizeInplace()
+      --divide by distance to other to lower the steer if its farther
+      avoidSingleBoid = avoidSingleBoid / self.position:dist(boid.position)
+      separateSteer = separateSteer + avoidSingleBoid
+      howMannyCloseBoids = howMannyCloseBoids +1
     end
   end
-  if self.velocity:dist(closestBoid.velocity) < minSeparation then
-    
-    separateSteer.x = self.x - closestBoid.x
-    separateSteer.y = self.y - closestBoid.y
-    --divide by distance to other to lower the steer if its farther
-    separateSteer = separateSteer * self.velocity:dist(closestBoid.velocity)
+  --average location to avoid close boids
+  if howMannyCloseBoids > 0 then
+    separateSteer = separateSteer/howMannyCloseBoids
     separateSteer:normalizeInplace()
     separateSteer = separateSteer*self.speed
     separateSteer = separateSteer - self.velocity
     separateSteer:trimInplace(self.maxSpeed )
-  end
+   end
   return separateSteer
 end
+
 
 function Boid:cohesion(nearbyBoids)
   local xAverage = 0
@@ -143,9 +150,8 @@ function Boid:cohesion(nearbyBoids)
   end
   xAverage = xAverage / #nearbyBoids
   yAverage = yAverage / #nearbyBoids
-  local position = Vector.new(self.x,self.y)
   local cohestionSteer = Vector.new(xAverage,yAverage)
-  cohestionSteer = cohestionSteer - position
+  cohestionSteer = cohestionSteer - self.position
   cohestionSteer:normalizeInplace()
   cohestionSteer = cohestionSteer *self.speed
   cohestionSteer = cohestionSteer - self.velocity
