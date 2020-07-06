@@ -17,8 +17,8 @@ function Boid:new(orderedUpdate,x,y,opts)
 
   self.rotation = opts.rotation
 	self.rotationVelocity = 1.77*math.pi
-	self.speed = opts.velocity
-	self.maxSpeed = 50
+	self.speed = 10
+	self.maxSpeed = 0.3
   
 	self.acceleration = Vector.new(0,0)
   self.velocity = Vector.new(math.cos(self.rotation),math.sin(self.rotation))
@@ -54,7 +54,7 @@ function Boid:update(dt)
       end
     self.velocity = self.velocity + self.acceleration
     self.rotation = math.atan2(self.velocity.y,self.velocity.x)
-    self.collider:setLinearVelocity(self.velocity.x,self.velocity.y)
+    self.collider:setLinearVelocity(self.velocity.x*self.speed,self.velocity.y*self.speed)
     self.x,self.y = self.collider:getPosition() 
     self.acceleration = self.acceleration *0
 	end
@@ -82,8 +82,11 @@ function Boid:observe(dt)
     end
     local aligmentSteer = self:aligment(nearbyBoids)
     local separationSteer = self:separation(nearbyBoids)
-    self.acceleration = self.acceleration + aligmentSteer 
+    local cohestionSteer = self:cohesion(nearbyBoids)
+    self.acceleration = self.acceleration + aligmentSteer
     self.acceleration = self.acceleration + separationSteer
+    self.acceleration = self.acceleration + cohestionSteer
+    
   end
 end
 
@@ -92,6 +95,7 @@ end
 
 function Boid:aligment(nearbyBoids)
   local sum = Vector.new(0,0)
+
   for i,boid in ipairs(nearbyBoids) do
     sum = sum + boid.velocity
   end
@@ -128,6 +132,26 @@ function Boid:separation(nearbyBoids)
     separateSteer:trimInplace(self.maxSpeed )
   end
   return separateSteer
+end
+
+function Boid:cohesion(nearbyBoids)
+  local xAverage = 0
+  local yAverage = 0
+  for i,boid in ipairs(nearbyBoids) do
+    xAverage = xAverage + boid.x
+    yAverage = yAverage + boid.y
+  end
+  xAverage = xAverage / #nearbyBoids
+  yAverage = yAverage / #nearbyBoids
+  local position = Vector.new(self.x,self.y)
+  local cohestionSteer = Vector.new(xAverage,yAverage)
+  cohestionSteer = cohestionSteer - position
+  cohestionSteer:normalizeInplace()
+  cohestionSteer = cohestionSteer *self.speed
+  cohestionSteer = cohestionSteer - self.velocity
+  cohestionSteer:trimInplace(self.maxSpeed )
+  return cohestionSteer
+  
 end
 
 function clamp(min, val, max)
