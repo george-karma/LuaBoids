@@ -1,7 +1,7 @@
 --declaring specific screen objects such as physics and game objects
 local ScreenControler = Object:extend()
-SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
 function ScreenControler:new()
   love.window.setMode(SCREEN_WIDTH,SCREEN_HEIGHT)
   orderedUpdate =  OrderedUpdate(self)
