@@ -11,16 +11,10 @@ profiler = require("profiler")
 
 
 function love.load()
-profiler.start()
 readObjects("Objects")
 timer = Timer()
 input = Input()
 screenController = ScreenControler()
-timer:after(30,function()
-    profiler.stop()
-    profiler.report("profiler.log")
-    love.event.quit()
-    end)
 
 end
 

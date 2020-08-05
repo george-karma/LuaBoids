@@ -1,0 +1,106 @@
+ > TOTAL TIME   = 30.796000 s
+
+-------------------------------------------------------------------------------
+| FILE                 : FUNCTION              : LINE  : TIME   : %     : #   |
+-------------------------------------------------------------------------------
+| [string "boot.lua"]  : Anon                  :  594  : 30.3890: 98.7  :  13 |
+| input                : update                :   60  : 29.4610: 95.7  :  13 |
+| main                 : Anon                  :   21  : 29.4610: 95.7  :  13 |
+| Objects/ScreenControl: update                :   13  : 29.4090: 95.5  :  12 |
+| Objects/OrderedUpdate: update                :   18  : 29.4080: 95.5  :  12 |
+| Objects/Boidv3       : update                :   41  : 29.1950: 94.8  : 3600|
+| Objects/Boidv3       : observe               :   93  : 28.9620: 94.0  : 3600|
+| windfield/init       : queryRectangleArea    :  592  : 28.2110: 91.6  : 3600|
+| windfield/mlib/mlib  : isPolygonInside       :  893  : 26.5730: 86.3  : 29336|
+| windfield/mlib/mlib  : isSegmentInsidePolygon:  825  : 26.1020: 84.8  : 29336|
+| windfield/mlib/mlib  : getSegmentSegmentInter:  414  : 21.7570: 70.6  : 136992|
+| windfield/mlib/mlib  : getPolygonSegmentInter:  780  : 20.5260: 66.7  : 29336|
+| windfield/mlib/mlib  : getYIntercept         :  185  : 10.6310: 34.5  : 508136|
+| windfield/mlib/mlib  : getSlope              :  159  : 7.1370 : 23.2  : 919112|
+| windfield/mlib/mlib  : getLineLineIntersectio:  203  : 5.9070 : 19.2  : 68496|
+| windfield/mlib/mlib  : checkPolygonPoint     :  795  : 5.0140 : 16.3  : 53728|
+| windfield/mlib/mlib  : checkSegmentPoint     :  370  : 4.6340 : 15.0  : 97160|
+| windfield/mlib/mlib  : checkInput            :   22  : 3.5880 : 11.7  : 689032|
+| windfield/mlib/mlib  : checkFuzzy            :   29  : 3.3620 : 10.9  : 1294632|
+| main                 : draw                  :   27  : 0.9850 : 3.2   :  13 |
+| Objects/ScreenControl: draw                  :   26  : 0.9840 : 3.2   :  13 |
+| Objects/OrderedUpdate: draw                  :   29  : 0.9830 : 3.2   :  13 |
+| windfield/mlib/mlib  : cycle                 :  106  : 0.7450 : 2.4   : 293360|
+| windfield/init       : draw                  :   75  : 0.7240 : 2.4   :  13 |
+| windfield/init       : collisionClassInCollis:  538  : 0.4210 : 1.4   : 17132|
+| windfield/init       : _queryBoundingBox     :  528  : 0.3840 : 1.2   : 3600|
+| windfield/init       : Anon                  :  530  : 0.2490 : 0.8   : 34264|
+| windfield/mlib/mlib  : checkLinePoint        :   29  : 0.2430 : 0.8   : 97160|
+| Objects/Boidv3       : separation            :  131  : 0.2350 : 0.8   : 1428|
+| windfield/init       : update                :   70  : 0.2010 : 0.7   :  12 |
+| windfield/mlib/mlib  : isWithinBounds        :  125  : 0.1960 : 0.6   : 76688|
+| windfield/mlib/mlib  : getGreatestPoint      :  108  : 0.1860 : 0.6   : 76688|
+| Objects/Boidv3       : cohesion              :  158  : 0.1340 : 0.4   : 1428|
+| Objects/Boidv3       : aligment              :  117  : 0.1210 : 0.4   : 1428|
+| vector               : isvector              :   54  : 0.1040 : 0.3   : 44986|
+| Objects/Boidv3       : draw                  :   79  : 0.0860 : 0.3   : 3900|
+| Objects/OrderedUpdate: Anon                  :   32  : 0.0800 : 0.3   : 30238|
+| windfield/mlib/mlib  : removeDuplicatePairs  :   34  : 0.0760 : 0.2   : 29336|
+| windfield/init       : collisionEventsClear  :  206  : 0.0620 : 0.2   :  12 |
+| vector               : normalizeInplace      :  144  : 0.0520 : 0.2   : 5268|
+| timer                : update                :   53  : 0.0520 : 0.2   :  13 |
+| vector               : trimInplace           :  191  : 0.0480 : 0.2   : 3889|
+| timer                : updateTimerHandle     :   32  : 0.0390 : 0.1   : 3601|
+| windfield/init       : collIf                :  372  : 0.0320 : 0.1   : 7800|
+| windfield/init       : Anon                  :  410  : 0.0300 : 0.1   : 512 |
+| windfield/init       : Anon                  :  472  : 0.0270 : 0.1   : 189 |
+| windfield/init       : Anon                  :  379  : 0.0250 : 0.1   : 576 |
+| windfield/init       : Anon                  :  441  : 0.0230 : 0.1   : 189 |
+| windfield/init       : getObject             :  896  : 0.0230 : 0.1   : 8307|
+| windfield/init       : collisionEventsClear  :  814  : 0.0200 : 0.1   : 3600|
+| windfield/init       : enter                 :  832  : 0.0140 : 0.0   : 3600|
+| timer                : during                :   30  : 0.0110 : 0.0   : 3601|
+| vector               : len2                  :  122  : 0.0070 : 0.0   : 3889|
+| windfield/init       : collEnsure            :  367  : 0.0040 : 0.0   : 1300|
+| windfield/init       : preSolve              :  784  : 0.0030 : 0.0   : 756 |
+| windfield/init       : postSolve             :  785  : 0.0030 : 0.0   : 756 |
+| input                : pressed               :   75  : 0.0010 : 0.0   :  37 |
+-------------------------------------------------------------------------------
+| windfield/init       : Anon                  :  703  : ~      : ~     :  31 |
+| windfield/init       : newCircleCollider     :  503  : ~      : ~     :   1 |
+| timer                : after                 :   77  : ~      : ~     :   1 |
+| [string "RandomGenera: random                :   75  : ~      : ~     :  31 |
+| [string "wrap_Event.l: poll                  :   25  : ~      : ~     :  13 |
+| windfield/init       : newCircleCollider     :  711  : ~      : ~     :   1 |
+| [string "boot.lua"]  : Anon                  :  204  : ~      : ~     :   1 |
+| timer                : after                 :   71  : ~      : ~     :   1 |
+| vector               : new                   :   33  : ~      : ~     : 7838|
+| input                : copy                  :  213  : ~      : ~     :  13 |
+| windfield/init       : UUID                  :  702  : ~      : ~     :   1 |
+| input                : Anon                  :  263  : ~      : ~     :   1 |
+| input                : Anon                  :  219  : ~      : ~     :  13 |
+| input                : Anon                  :   57  : ~      : ~     :  16 |
+| Objects/Boidv3       : after                 :    8  : ~      : ~     :   1 |
+| [string "boot.lua"]  : Anon                  :  198  : ~      : ~     :   1 |
+| [string "RandomGenera: random                :   33  : ~      : ~     :  31 |
+| [string "boot.lua"]  : Anon                  :  249  : ~      : ~     :   1 |
+| vector               : len                   :  126  : ~      : ~     : 5268|
+| input                : Anon                  :  288  : ~      : ~     :  15 |
+| [string "boot.lua"]  : Anon                  :  237  : ~      : ~     :  15 |
+| windfield/init       : getEnterCollisionData :  846  : ~      : ~     : 281 |
+| vector               : __mul                 :   85  : ~      : ~     : 7489|
+| vector               : __sub                 :   33  : ~      : ~     : 5317|
+| windfield/init       : setLinearVelocity     :  791  : ~      : ~     : 3600|
+| windfield/init       : getPosition           :  791  : ~      : ~     : 3688|
+| windfield/mlib/mlib  : checkLinePoint        :  351  : ~      : ~     : 97160|
+| vector               : __add                 :   75  : ~      : ~     : 11570|
+| [string "boot.lua"]  : Anon                  :  225  : ~      : ~     :  15 |
+| windfield/init       : setPosition           :  791  : ~      : ~     :  88 |
+| vector               : __sub                 :   80  : ~      : ~     : 5317|
+| vector               : __mul                 :   33  : ~      : ~     : 7489|
+| vector               : __add                 :   33  : ~      : ~     : 11570|
+| windfield/mlib/mlib  : addPoints             :   76  : ~      : ~     :   6 |
+| windfield/init       : setObject             :  892  : ~      : ~     :   1 |
+| windfield/init       : setCollisionClass     :  821  : ~      : ~     :   1 |
+| vector               : __div                 :   96  : ~      : ~     : 3840|
+| windfield/mlib/mlib  : removeDuplicatePointsF:   82  : ~      : ~     :   5 |
+| vector               : dist                  :  130  : ~      : ~     : 3686|
+| vector               : __div                 :   33  : ~      : ~     : 3840|
+| input                : Anon                  :   60  : ~      : ~     :  16 |
+| profiler             : stop                  :  152  : ~      : ~     :   1 |
+-------------------------------------------------------------------------------

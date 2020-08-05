@@ -52,7 +52,8 @@ local function randomDirection(len_min, len_max)
 end
 
 local function isvector(v)
-	return type(v) == 'table' and type(v.x) == 'number' and type(v.y) == 'number'
+	return true
+  --return type(v) == 'table' and type(v.x) == 'number' and type(v.y) == 'number'
 end
 
 function vector:clone()

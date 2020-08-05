@@ -13,7 +13,7 @@ end
 function ScreenControler:update(dt)
   orderedUpdate:update(dt)
   if input:pressed('spawnBoid') then
-    orderedUpdate:addScreenObject('Boidv3',love.mouse.getX(),love.mouse.getY(),{rotation = love.math.random(-math.pi,math.pi), velocity = love.math.random(30,70)})
+    orderedUpdate:addScreenObject('Boidv3',love.mouse.getX(),love.mouse.getY(),{rotation = love.math.random(-math.pi,math.pi), velocity = love.math.random(30,70),colour = {0.921, 0.078, 0.266},isInfected = true})
   end
   if input:pressed('spawnBoids') then
     while desiredBoids >0 do

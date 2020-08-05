@@ -1,0 +1,90 @@
+ > TOTAL TIME   = 30.394000 s
+
+-------------------------------------------------------------------------------
+| FILE                 : FUNCTION              : LINE  : TIME   : %     : #   |
+-------------------------------------------------------------------------------
+| [string "boot.lua"]  : Anon                  :  594  : 29.9990: 98.7  :  47 |
+| input                : update                :   60  : 26.4910: 87.2  :  47 |
+| main                 : Anon                  :   21  : 26.4900: 87.2  :  47 |
+| Objects/OrderedUpdate: update                :   18  : 26.2910: 86.5  :  46 |
+| Objects/ScreenControl: update                :   13  : 26.2910: 86.5  :  46 |
+| Objects/Boidv3       : update                :   41  : 25.2410: 83.0  : 13800|
+| Objects/Boidv3       : observe               :   93  : 24.3400: 80.1  : 13800|
+| windfield/init       : queryCircleArea       :  564  : 15.7590: 51.8  : 13800|
+| windfield/mlib/mlib  : getCircleIntersection :  648  : 3.7080 : 12.2  : 197029|
+| Objects/ScreenControl: draw                  :   26  : 3.4990 : 11.5  :  47 |
+| main                 : draw                  :   27  : 3.4990 : 11.5  :  47 |
+| Objects/OrderedUpdate: draw                  :   29  : 3.4980 : 11.5  :  47 |
+| windfield/init       : _queryBoundingBox     :  528  : 2.9290 : 9.6   : 13800|
+| Objects/Boidv3       : separation            :  130  : 2.7350 : 9.0   : 12927|
+| windfield/init       : collisionClassInCollis:  538  : 2.7180 : 8.9   : 132001|
+| windfield/init       : draw                  :   75  : 2.5460 : 8.4   :  47 |
+| windfield/init       : Anon                  :  530  : 2.0300 : 6.7   : 264002|
+| vector               : isvector              :   54  : 1.3180 : 4.3   : 495635|
+| Objects/Boidv3       : cohesion              :  157  : 1.3080 : 4.3   : 12927|
+| Objects/Boidv3       : aligment              :  116  : 1.0400 : 3.4   : 12927|
+| windfield/init       : update                :   70  : 1.0120 : 3.3   :  46 |
+| windfield/mlib/mlib  : validateNumber        :   99  : 0.7760 : 2.6   : 114342|
+| windfield/mlib/mlib  : checkFuzzy            :   29  : 0.4440 : 1.5   : 166327|
+| windfield/init       : getObject             :  896  : 0.4420 : 1.5   : 173847|
+| vector               : normalizeInplace      :  144  : 0.3820 : 1.3   : 46402|
+| Objects/Boidv3       : draw                  :   79  : 0.3360 : 1.1   : 14100|
+| vector               : trimInplace           :  191  : 0.3320 : 1.1   : 33584|
+| Objects/OrderedUpdate: Anon                  :   32  : 0.2790 : 0.9   : 109322|
+| windfield/init       : collisionEventsClear  :  206  : 0.2550 : 0.8   :  46 |
+| timer                : update                :   53  : 0.1990 : 0.7   :  47 |
+| windfield/init       : Anon                  :  472  : 0.1680 : 0.6   : 1174|
+| windfield/init       : Anon                  :  441  : 0.1640 : 0.5   : 1174|
+| timer                : updateTimerHandle     :   32  : 0.1530 : 0.5   : 13801|
+| windfield/init       : Anon                  :  379  : 0.1420 : 0.5   : 3004|
+| windfield/init       : Anon                  :  410  : 0.1300 : 0.4   : 2932|
+| windfield/init       : collIf                :  372  : 0.1210 : 0.4   : 45984|
+| vector               : len2                  :  122  : 0.0940 : 0.3   : 33584|
+| windfield/init       : collisionEventsClear  :  814  : 0.0800 : 0.3   : 13800|
+| windfield/init       : enter                 :  832  : 0.0750 : 0.2   : 13800|
+| timer                : during                :   30  : 0.0380 : 0.1   : 13801|
+| windfield/init       : collEnsure            :  367  : 0.0200 : 0.1   : 7664|
+| windfield/init       : preSolve              :  784  : 0.0100 : 0.0   : 4696|
+| windfield/init       : postSolve             :  785  : 0.0090 : 0.0   : 4696|
+| windfield/init       : getEnterCollisionData :  846  : 0.0050 : 0.0   : 1395|
+| input                : Anon                  :   60  : 0.0020 : 0.0   : 142 |
+| input                : Anon                  :  219  : 0.0010 : 0.0   :  47 |
+| [string "RandomGenera: random                :   33  : 0.0010 : 0.0   :  31 |
+| windfield/init       : UUID                  :  702  : 0.0010 : 0.0   :   1 |
+-------------------------------------------------------------------------------
+| [string "RandomGenera: random                :   75  : ~      : ~     :  31 |
+| windfield/init       : Anon                  :  703  : ~      : ~     :  31 |
+| input                : pressed               :   75  : ~      : ~     : 139 |
+| windfield/init       : newCircleCollider     :  711  : ~      : ~     :   1 |
+| vector               : new                   :   33  : ~      : ~     : 52475|
+| timer                : after                 :   71  : ~      : ~     :   1 |
+| timer                : after                 :   77  : ~      : ~     :   1 |
+| windfield/init       : newCircleCollider     :  503  : ~      : ~     :   1 |
+| windfield/init       : setObject             :  892  : ~      : ~     :   1 |
+| vector               : __mul                 :   85  : ~      : ~     : 47384|
+| input                : copy                  :  213  : ~      : ~     :  47 |
+| vector               : __mul                 :   33  : ~      : ~     : 47384|
+| [string "boot.lua"]  : Anon                  :  198  : ~      : ~     :   3 |
+| vector               : __div                 :   96  : ~      : ~     : 33475|
+| vector               : __add                 :   33  : ~      : ~     : 118575|
+| input                : Anon                  :  263  : ~      : ~     :   1 |
+| input                : Anon                  :   57  : ~      : ~     : 142 |
+| vector               : __sub                 :   80  : ~      : ~     : 46511|
+| windfield/init       : getPosition           :  791  : ~      : ~     : 14152|
+| [string "boot.lua"]  : Anon                  :  237  : ~      : ~     : 141 |
+| input                : Anon                  :  288  : ~      : ~     : 141 |
+| vector               : __sub                 :   33  : ~      : ~     : 46511|
+| [string "boot.lua"]  : Anon                  :  225  : ~      : ~     : 141 |
+| windfield/mlib/mlib  : getLength             :  148  : ~      : ~     : 197029|
+| windfield/init       : setPosition           :  791  : ~      : ~     : 352 |
+| vector               : dist                  :  130  : ~      : ~     : 65994|
+| windfield/init       : setLinearVelocity     :  791  : ~      : ~     : 13800|
+| vector               : __add                 :   75  : ~      : ~     : 118575|
+| windfield/init       : setCollisionClass     :  821  : ~      : ~     :   1 |
+| [string "boot.lua"]  : Anon                  :  204  : ~      : ~     :   1 |
+| Objects/Boidv3       : after                 :    8  : ~      : ~     :   1 |
+| vector               : __div                 :   33  : ~      : ~     : 33475|
+| [string "wrap_Event.l: poll                  :   25  : ~      : ~     :  47 |
+| vector               : len                   :  126  : ~      : ~     : 46402|
+| profiler             : stop                  :  152  : ~      : ~     :   1 |
+-------------------------------------------------------------------------------

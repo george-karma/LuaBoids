@@ -4,16 +4,21 @@ local Boid = Object:extend()
 
 
 function Boid:new(orderedUpdate,x,y,opts)
-  self.x =x
+  --[[profiler.start()
+  timer:after(30,function()
+    profiler.stop()
+    profiler.report("5_boid.log")
+    love.event.quit()
+    end)--]]
+  self.x = x
   self.y = y
-  self.w = 5
+  self.w = 10
   self.position = Vector.new(self.x,self.y)
   
   
   self.collider = orderedUpdate.physicsWorld:newCircleCollider(self.x,self.y,self.w)
   self.collider:setObject(self)
   self.collider:setCollisionClass("Boid")    
-
 
   self.rotation = opts.rotation
 	self.rotationVelocity = 1.77*math.pi
@@ -22,87 +27,94 @@ function Boid:new(orderedUpdate,x,y,opts)
   
 	self.acceleration = Vector.new(0,0)
   self.velocity = Vector.new(math.cos(self.rotation),math.sin(self.rotation))
-  self.canObserve = true 
   
-  
-  input:bind("mouse1","spawnBoid")
+  self.colours = {
+    red = {0.921, 0.078, 0.266},
+    green = {0.137, 0.678, 0.062},
+    white = {1, 1, 1}
+  }
+  self.colour = opts.colour  or self.colours.green
+  self.isInfected = opts.isInfected or false
   
 end
 
 function Boid:update(dt)
-  clamp(0,self.speed, self.maxSpeed)
-  if self.canObserve then
-    self:observe(dt)
-  end
+  self:observe()
   --sync collider and drawable
-  if self.collider then 
-    if self.x < -self.w then 
-      self.collider:setPosition(SCREEN_WIDTH + self.w, self.y) 
-      self.x,self.y = self.collider:getPosition() 
-      end
-    if self.y < -self.w then 
-      self.collider:setPosition(self.x,SCREEN_HEIGHT+self.w) 
-      self.x,self.y = self.collider:getPosition() 
-      end
-    if self.x > self.w + SCREEN_WIDTH then 
-      self.collider:setPosition(-self.w, self.y) 
-      self.x,self.y = self.collider:getPosition() 
-      end
-    if self.y > self.w + SCREEN_HEIGHT then
-      self.collider:setPosition(self.x, -self.w) 
-      self.x,self.y = self.collider:getPosition() 
-      end
-    self.velocity = self.velocity + self.acceleration
-    self.rotation = math.atan2(self.velocity.y,self.velocity.x)
-    self.collider:setLinearVelocity(self.velocity.x*self.speed,self.velocity.y*self.speed)
+  if self.x < -self.w then 
+    self.collider:setPosition(SCREEN_WIDTH + self.w, self.y) 
     self.x,self.y = self.collider:getPosition() 
-    self.position.x = self.x
-    self.position.y = self.y 
-    self.acceleration = self.acceleration *0
-	end
+    end
+  if self.y < -self.w then 
+    self.collider:setPosition(self.x,SCREEN_HEIGHT+self.w) 
+    self.x,self.y = self.collider:getPosition() 
+    end
+  if self.x > self.w + SCREEN_WIDTH then 
+    self.collider:setPosition(-self.w, self.y) 
+    self.x,self.y = self.collider:getPosition() 
+    end
+  if self.y > self.w + SCREEN_HEIGHT then
+    self.collider:setPosition(self.x, -self.w) 
+    self.x,self.y = self.collider:getPosition() 
+  end
+  
+  self.velocity = self.velocity + self.acceleration
+  self.rotation = math.atan2(self.velocity.y,self.velocity.x)
+  self.collider:setLinearVelocity(self.velocity.x*self.speed,self.velocity.y*self.speed)
+  self.x,self.y = self.collider:getPosition() 
+  self.position.x = self.x
+  self.position.y = self.y 
+  self.acceleration = self.acceleration *0
+  if self.collider:enter('Boid') then
+    local collision_data = self.collider:getEnterCollisionData('Boid')
+    if collision_data.collider:getObject().isInfected then
+      if math.random() <= chanceToInfect then
+        self.infected = true
+        self.colour = self.colours.red
+        end--]]
+    end
+  end
 end
 
 function Boid:draw()
- love.graphics.line(self.x+1*self.w*math.cos(self.rotation),
+  
+  love.graphics.line(self.x+1*self.w*math.cos(self.rotation),
 							self.y+1*self.w*math.sin(self.rotation),
 							self.x+1.3*self.w*math.cos(self.rotation),
 							self.y+1.3*self.w*math.sin(self.rotation))
+  love.graphics.setColor(self.colour)
+  love.graphics.circle("fill", self.x,self.y,self.w/2)
+  love.graphics.setColor(self.colours.white)
   
 end
 
 
 
-function Boid:observe(dt)
+ function Boid:observe(dt)
   local colliders = orderedUpdate.physicsWorld:queryCircleArea(self.x,self.y,observeRange)
   local nearbyBoids = {}
+  local velocitySum = Vector.new(0,0)
   --if there are other colliders around
   if #colliders>1 then
     for i,collider in ipairs(colliders) do
         if collider.collision_class == "Boid"  and collider:getObject() ~= self then
+          velocitySum = velocitySum + collider:getObject().velocity
           table.insert(nearbyBoids,collider:getObject())
         end
     end
-    local aligmentSteer = self:aligment(nearbyBoids)
+    local aligmentSteer = self:aligment(velocitySum, #nearbyBoids)
     local separationSteer = self:separation(nearbyBoids)
     local cohestionSteer = self:cohesion(nearbyBoids)
     self.acceleration = self.acceleration + aligmentSteer
-    self.acceleration = self.acceleration + separationSteer*2
+    self.acceleration = self.acceleration + separationSteer
     self.acceleration = self.acceleration + cohestionSteer
     
   end
 end
 
-
-
-
-function Boid:aligment(nearbyBoids)
-  local sum = Vector.new(0,0)
-
-  for i,boid in ipairs(nearbyBoids) do
-    sum = sum + boid.velocity
-  end
+ function Boid:aligment(sum, nearbyBoids)
   --average the velocity of nearby boids 
-  sum = sum/#nearbyBoids
+  sum = sum/nearbyBoids
   sum:normalizeInplace()
   sum = sum*self.speed
   --amount to steer = desired velocity - current velocity
@@ -120,7 +132,7 @@ function Boid:separation(nearbyBoids)
   for i, boid in ipairs(nearbyBoids)do
     if self.position:dist(boid.position) < minSeparation then
       local avoidSingleBoid = Vector.new(0,0)
-      avoidSingleBoid.x = self.x - boid.x
+      avoidSingleBoid.x = self.x - boid.x  
       avoidSingleBoid.y = self.y - boid.y
       avoidSingleBoid:normalizeInplace()
       --divide by distance to other to lower the steer if its farther
