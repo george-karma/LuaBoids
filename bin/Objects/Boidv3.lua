@@ -42,29 +42,36 @@ function Boid:update(dt)
   self:observe()
   --sync collider and drawable
   if self.x < -self.w then 
-    self.collider:setPosition(SCREEN_WIDTH + self.w, self.y) 
+    self.collider:setPosition(BOID_SPACE_WIDTH + self.w, self.y) 
     self.x,self.y = self.collider:getPosition() 
     end
   if self.y < -self.w then 
-    self.collider:setPosition(self.x,SCREEN_HEIGHT+self.w) 
+    self.collider:setPosition(self.x,BOID_SPACE_HEIGHT+self.w) 
     self.x,self.y = self.collider:getPosition() 
     end
-  if self.x > self.w + SCREEN_WIDTH then 
+  if self.x > self.w + BOID_SPACE_WIDTH then 
     self.collider:setPosition(-self.w, self.y) 
     self.x,self.y = self.collider:getPosition() 
     end
-  if self.y > self.w + SCREEN_HEIGHT then
+  if self.y > self.w + BOID_SPACE_HEIGHT then
     self.collider:setPosition(self.x, -self.w) 
     self.x,self.y = self.collider:getPosition() 
   end
   
+  --updating velocity
   self.velocity = self.velocity + self.acceleration
+  --matching rotation to velocity
   self.rotation = math.atan2(self.velocity.y,self.velocity.x)
+  --applying the new velocity
   self.collider:setLinearVelocity(self.velocity.x*self.speed,self.velocity.y*self.speed)
+  --get the x and y of the collider and update the potition vector
   self.x,self.y = self.collider:getPosition() 
   self.position.x = self.x
   self.position.y = self.y 
+  --reset acceleration to 0
   self.acceleration = self.acceleration *0
+  
+  --solving the chance that this boid is infected
   if self.collider:enter('Boid') then
     local collision_data = self.collider:getEnterCollisionData('Boid')
     if collision_data.collider:getObject().isInfected then

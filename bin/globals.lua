@@ -1,12 +1,19 @@
-seeObserverRange = false
-observeTime = 0.5
+seeObserverRange = true
 observeRange = 50
-cohesionTime = 0.5
-separationTime = 0.5
-aligmentTime = 0.5
+maxObserveRange = 150
+minObserveRange = 5
+
 minSeparation = observeRange/2
+
+
 desiredBoids = 150
-timeToCentre = 2
-boidSize = 5
+
+
 chanceToInfect = 0.80
 timeToHeal = 5
+
+
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 920
+BOID_SPACE_WIDTH = 1280
+BOID_SPACE_HEIGHT = 620

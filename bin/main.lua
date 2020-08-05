@@ -7,8 +7,7 @@ Physics = require 'windfield'
 globals = require "globals"
 Vector = require 'vector'
 profiler = require("profiler")
-
-
+require 'simple-slider'
 
 function love.load()
 readObjects("Objects")
@@ -28,8 +27,7 @@ function love.draw()
   screenController:draw()
 end
 
-
---reads and requires all objects inside the folder
+--reads and requires all objcts inside the folder
 function readObjects (folder)
 	local files = love.filesystem.getDirectoryItems(folder)
 	for i, file in ipairs(files) do
