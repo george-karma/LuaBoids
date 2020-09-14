@@ -1,4 +1,5 @@
-seeObserverRange = true
+seeObserverRange = false
+
 observeRange = 50
 maxObserveRange = 150
 minObserveRange = 5
