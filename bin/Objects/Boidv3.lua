@@ -112,8 +112,8 @@ end
     local aligmentSteer = self:aligment(velocitySum, #nearbyBoids)
     local separationSteer = self:separation(nearbyBoids)
     local cohestionSteer = self:cohesion(nearbyBoids)
-    self.acceleration = self.acceleration + aligmentSteer
-    self.acceleration = self.acceleration + separationSteer
+    self.acceleration = self.acceleration + aligmentSteer *1.5
+    self.acceleration = self.acceleration + separationSteer *4
     self.acceleration = self.acceleration + cohestionSteer
     
   end
